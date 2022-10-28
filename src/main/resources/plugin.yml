@@ -1,0 +1,7 @@
+name: SimpleElevator
+main: eu.koboo.simple.elevator.SimpleElevator
+version: 1.0
+description: Simple elevators for your server
+api-version: 1.13
+author: Koboo
+commands:
