@@ -23,30 +23,30 @@ public class PlayerMoveListener implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         Location to = event.getTo();
-        if(to == null) {
+        if (to == null) {
             return;
         }
         Player player = event.getPlayer();
-        if(player.isFlying()) {
+        if (player.isFlying()) {
             return;
         }
-        if(player.isSwimming()) {
+        if (player.isSwimming()) {
             return;
         }
         Location from = event.getFrom();
-        if(to.getY() <= from.getY()) {
+        if (to.getY() <= from.getY()) {
             return;
         }
         Block fromBlock = from.getBlock().getRelative(BlockFace.DOWN);
-        if(fromBlock.getType() == Material.AIR) {
+        if (fromBlock.getType() == Material.AIR) {
             fromBlock = fromBlock.getRelative(BlockFace.DOWN);
         }
-        if(!plugin.getElevatorConfig().getElevatorMaterials().contains(fromBlock.getType())) {
+        if (!plugin.getElevatorConfig().getElevatorMaterials().contains(fromBlock.getType())) {
             return;
         }
         // Player wants to go up
         Location elevatorLoc = plugin.findNextElevatorAbove(from);
-        if(elevatorLoc == null) {
+        if (elevatorLoc == null) {
             return;
         }
         player.teleport(elevatorLoc);

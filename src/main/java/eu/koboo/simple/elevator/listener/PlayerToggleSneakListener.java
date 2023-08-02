@@ -22,16 +22,16 @@ public class PlayerToggleSneakListener implements Listener {
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent event) {
         Player player = event.getPlayer();
-        if(!event.isSneaking()) {
+        if (!event.isSneaking()) {
             return;
         }
         Block fromBlock = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
-        if(!plugin.getElevatorConfig().getElevatorMaterials().contains(fromBlock.getType())) {
+        if (!plugin.getElevatorConfig().getElevatorMaterials().contains(fromBlock.getType())) {
             return;
         }
         // Player wants to go down
         Location elevatorLoc = plugin.findNextElevatorBelow(player.getLocation().subtract(0, 1.5, 0));
-        if(elevatorLoc == null) {
+        if (elevatorLoc == null) {
             return;
         }
         player.teleport(elevatorLoc);

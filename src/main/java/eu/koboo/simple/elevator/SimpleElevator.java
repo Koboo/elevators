@@ -62,7 +62,7 @@ public class SimpleElevator extends JavaPlugin {
 
     public Location findNextElevatorAbove(Location location) {
         World world = location.getWorld();
-        if(world == null) {
+        if (world == null) {
             return null;
         }
         return findNextElevator(location, location.getBlockY(), world.getMaxHeight(), true);
@@ -70,7 +70,7 @@ public class SimpleElevator extends JavaPlugin {
 
     public Location findNextElevatorBelow(Location location) {
         World world = location.getWorld();
-        if(world == null) {
+        if (world == null) {
             return null;
         }
         return findNextElevator(location, MIN_HEIGHT, location.getBlockY(), false);
@@ -78,15 +78,15 @@ public class SimpleElevator extends JavaPlugin {
 
     public Location findNextElevator(Location location, int from, int to, boolean up) {
         Location tempLoc = null;
-        for(int i = from; i <= to; i++) {
+        for (int i = from; i <= to; i++) {
             tempLoc = Objects.requireNonNullElseGet(tempLoc, location::clone);
-            if(up) {
+            if (up) {
                 tempLoc = tempLoc.add(0, 1, 0);
             } else {
                 tempLoc = tempLoc.subtract(0, 1, 0);
             }
             Block block = tempLoc.getBlock();
-            if(!elevatorConfig.getElevatorMaterials().contains(block.getType())) {
+            if (!elevatorConfig.getElevatorMaterials().contains(block.getType())) {
                 continue;
             }
             return tempLoc.add(0, 1, 0);
