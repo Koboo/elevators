@@ -1,34 +1,53 @@
 package eu.koboo.simple.elevator;
 
-import eu.koboo.simple.elevator.config.ElevatorConfig;
+import eu.koboo.simple.elevator.config.Config;
+import eu.koboo.simple.elevator.config.MaterialConverter;
 import eu.koboo.simple.elevator.listener.PlayerMoveListener;
 import eu.koboo.simple.elevator.listener.PlayerToggleSneakListener;
+import eu.koboo.yaml.YamlInstance;
+import eu.koboo.yaml.migration.YamlMigration;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.plugin.PluginLoadOrder;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.annotation.plugin.*;
+import org.bukkit.plugin.java.annotation.plugin.author.Author;
 
 import java.io.File;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 
+@Getter
+@Plugin(name = "PROJECT_NAME", version = "PROJECT_VERSION")
+@ApiVersion(ApiVersion.Target.v1_13)
+@Author("PROJECT_GROUP")
+@Description("PROJECT_DESCRIPTION")
+@LoadOrder(PluginLoadOrder.POSTWORLD)
+@Website("PROJECT_WEBSITE")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SimpleElevator extends JavaPlugin {
 
-    private AtomicReference<ElevatorConfig> configReference;
+    private static final int MIN_HEIGHT = -64;
+
+    Config elevatorConfig;
 
     @Override
     public void onEnable() {
-        File pluginDir = getDataFolder();
-        if (!pluginDir.exists()) {
-            pluginDir.mkdirs();
-        }
+        YamlInstance.getConverter().registerConverter(new MaterialConverter());
 
-        File configFile = new File(pluginDir, "config.yml");
-        if (!configFile.exists()) {
-            this.saveDefaultConfig();
-        }
-        configReference = new AtomicReference<>(ElevatorConfig.loadConfig(this));
+        getDataFolder().mkdirs();
+        YamlMigration migration = new YamlMigration();
+        elevatorConfig = migration.migrateConfig(
+            Config.class,
+            new File(getDataFolder(), "config.yml"),
+            "config-version",
+            true,
+            true
+        );
 
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerToggleSneakListener(this), this);
@@ -39,10 +58,6 @@ public class SimpleElevator extends JavaPlugin {
     @Override
     public void onDisable() {
         super.onDisable();
-    }
-
-    public ElevatorConfig getElevatorConfig() {
-        return configReference.get();
     }
 
     public Location findNextElevatorAbove(Location location) {
@@ -58,7 +73,7 @@ public class SimpleElevator extends JavaPlugin {
         if(world == null) {
             return null;
         }
-        return findNextElevator(location, world.getMinHeight(), location.getBlockY(), false);
+        return findNextElevator(location, MIN_HEIGHT, location.getBlockY(), false);
     }
 
     public Location findNextElevator(Location location, int from, int to, boolean up) {
@@ -71,7 +86,7 @@ public class SimpleElevator extends JavaPlugin {
                 tempLoc = tempLoc.subtract(0, 1, 0);
             }
             Block block = tempLoc.getBlock();
-            if(!getElevatorConfig().elevatorBlockList().contains(block.getType())) {
+            if(!elevatorConfig.getElevatorMaterials().contains(block.getType())) {
                 continue;
             }
             return tempLoc.add(0, 1, 0);

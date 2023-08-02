@@ -1,5 +1,0 @@
-# SimpleElevator configuration file
-settings:
-  elevator-blocks:
-    - LAPIS_BLOCk
-    - REDSTONE_BLOCK

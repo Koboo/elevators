@@ -26,7 +26,7 @@ public class PlayerToggleSneakListener implements Listener {
             return;
         }
         Block fromBlock = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
-        if(!plugin.getElevatorConfig().elevatorBlockList().contains(fromBlock.getType())) {
+        if(!plugin.getElevatorConfig().getElevatorMaterials().contains(fromBlock.getType())) {
             return;
         }
         // Player wants to go down

@@ -1,28 +1,52 @@
 plugins {
     id 'java'
+    id 'net.kyori.blossom' version '1.2.0'
 }
 
-group 'eu.koboo.simple-elevator'
-version '1.0'
+group "$projectGroup"
+version "$projectVersion"
 
 repositories {
     mavenCentral()
     maven {
-        name 'spigot-repo'
         url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+    maven {
+        url 'https://reposilite.koboo.eu/releases'
     }
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.19.1-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.13.1-R0.1-SNAPSHOT'
 
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    compileOnly "org.spigotmc:plugin-annotations:$pluginAnnotationsVersion"
+    annotationProcessor "org.spigotmc:plugin-annotations:$pluginAnnotationsVersion"
+
+    implementation 'eu.koboo:yaml-config:1.3.3'
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_17
-java.targetCompatibility = JavaVersion.VERSION_17
+java {
+    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_11
+}
 
-tasks.withType(JavaCompile) {
+compileJava {
+    options.fork = true
+    options.incremental = true
     options.encoding = 'UTF-8'
+    options.release.set(11)
+}
+
+blossom {
+    replaceToken('PROJECT_NAME', project.name)
+    replaceToken('PROJECT_VERSION', project.version)
+    replaceToken('PROJECT_GROUP', projectGroup)
+    replaceToken('PROJECT_DESCRIPTION', projectDescription)
+    replaceToken('PROJECT_WEBSITE', projectWebsite)
 }

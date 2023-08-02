@@ -4,7 +4,6 @@ import eu.koboo.simple.elevator.SimpleElevator;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -14,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
@@ -43,7 +41,7 @@ public class PlayerMoveListener implements Listener {
         if(fromBlock.getType() == Material.AIR) {
             fromBlock = fromBlock.getRelative(BlockFace.DOWN);
         }
-        if(!plugin.getElevatorConfig().elevatorBlockList().contains(fromBlock.getType())) {
+        if(!plugin.getElevatorConfig().getElevatorMaterials().contains(fromBlock.getType())) {
             return;
         }
         // Player wants to go up
