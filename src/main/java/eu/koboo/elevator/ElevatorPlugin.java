@@ -1,9 +1,9 @@
-package eu.koboo.simple.elevator;
+package eu.koboo.elevator;
 
-import eu.koboo.simple.elevator.config.Config;
-import eu.koboo.simple.elevator.config.MaterialConverter;
-import eu.koboo.simple.elevator.listener.PlayerMoveListener;
-import eu.koboo.simple.elevator.listener.PlayerToggleSneakListener;
+import eu.koboo.elevator.config.Config;
+import eu.koboo.elevator.config.MaterialConverter;
+import eu.koboo.elevator.listener.PlayerMoveListener;
+import eu.koboo.elevator.listener.PlayerToggleSneakListener;
 import eu.koboo.yaml.YamlInstance;
 import eu.koboo.yaml.migration.YamlMigration;
 import lombok.AccessLevel;
@@ -29,9 +29,11 @@ import java.util.Objects;
 @LoadOrder(PluginLoadOrder.POSTWORLD)
 @Website("PROJECT_WEBSITE")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SimpleElevator extends JavaPlugin {
+public class ElevatorPlugin extends JavaPlugin {
 
     private static final int MIN_HEIGHT = -64;
+
+    private static final int BSTATS_ID = 19365;
 
     Config elevatorConfig;
 

@@ -1,6 +1,6 @@
-package eu.koboo.simple.elevator.listener;
+package eu.koboo.elevator.listener;
 
-import eu.koboo.simple.elevator.SimpleElevator;
+import eu.koboo.elevator.ElevatorPlugin;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 @RequiredArgsConstructor
 public class PlayerToggleSneakListener implements Listener {
 
-    SimpleElevator plugin;
+    ElevatorPlugin plugin;
 
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent event) {

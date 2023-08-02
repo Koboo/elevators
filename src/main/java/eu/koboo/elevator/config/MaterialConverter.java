@@ -1,4 +1,4 @@
-package eu.koboo.simple.elevator.config;
+package eu.koboo.elevator.config;
 
 import eu.koboo.yaml.converter.Converter;
 import org.bukkit.Material;

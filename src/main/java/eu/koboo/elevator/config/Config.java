@@ -1,4 +1,4 @@
-package eu.koboo.simple.elevator.config;
+package eu.koboo.elevator.config;
 
 import eu.koboo.yaml.config.YamlComment;
 import eu.koboo.yaml.config.YamlKey;
