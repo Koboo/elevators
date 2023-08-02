@@ -9,6 +9,7 @@ import eu.koboo.yaml.migration.YamlMigration;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -32,7 +33,6 @@ import java.util.Objects;
 public class ElevatorPlugin extends JavaPlugin {
 
     private static final int MIN_HEIGHT = -64;
-
     private static final int BSTATS_ID = 19365;
 
     Config elevatorConfig;
@@ -50,6 +50,8 @@ public class ElevatorPlugin extends JavaPlugin {
             true,
             true
         );
+
+        new Metrics(this, BSTATS_ID);
 
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerToggleSneakListener(this), this);
@@ -78,7 +80,7 @@ public class ElevatorPlugin extends JavaPlugin {
         return findNextElevator(location, MIN_HEIGHT, location.getBlockY(), false);
     }
 
-    public Location findNextElevator(Location location, int from, int to, boolean up) {
+    private Location findNextElevator(Location location, int from, int to, boolean up) {
         Location tempLoc = null;
         for (int i = from; i <= to; i++) {
             tempLoc = Objects.requireNonNullElseGet(tempLoc, location::clone);

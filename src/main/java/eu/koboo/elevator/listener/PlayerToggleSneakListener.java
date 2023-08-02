@@ -20,6 +20,7 @@ public class PlayerToggleSneakListener implements Listener {
     ElevatorPlugin plugin;
 
     @EventHandler
+    @SuppressWarnings("unused")
     public void onSneak(PlayerToggleSneakEvent event) {
         Player player = event.getPlayer();
         if (!event.isSneaking()) {

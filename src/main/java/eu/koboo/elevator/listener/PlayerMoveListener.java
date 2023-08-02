@@ -21,6 +21,7 @@ public class PlayerMoveListener implements Listener {
     ElevatorPlugin plugin;
 
     @EventHandler
+    @SuppressWarnings("unused")
     public void onMove(PlayerMoveEvent event) {
         Location to = event.getTo();
         if (to == null) {
